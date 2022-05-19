@@ -1,0 +1,17 @@
+version: '3'
+services:
+  proxy:
+    restart: unless-stopped
+    image: nginx:latest
+    ports:
+      - 80:$PROXY_HTTP_PORT/tcp
+      - 443:$PROXY_HTTPS_PORT/tcp
+    volumes:
+      - ./templates:/etc/nginx/templates
+      - letsencrypt:/etc/letsencrypt
+      - acme-challenge:/var/www/challenge/.well-known/acme-challenge
+    env_file:
+      - ./.env
+volumes:
+  letsencrypt: {}
+  acme-challenge: {}
